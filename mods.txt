@@ -1,0 +1,14 @@
+Canary,forge,1.18.2
+Clumps,forge,1.18.2
+Entity Culling Fabric/Forge,forge,1.18.2
+FerriteCore,forge,1.18.2
+FastFurnace,forge,1.18.2
+FastSuite,forge,1.18.2
+FastWorkbench,forge,1.18.2
+Lazy DataFixerUpper,forge,1.18.2
+Rubidium,forge,1.18.2
+Rubidium Extra,forge,1.18.2
+Saturn,forge,1.18.2
+Magnesium/Rubidium Extras,forge,1.18.2
+Magnesium/Rubidium Dynamic Lights,forge,1.18.2
+Starlight (Forge),forge,1.18.2
