@@ -6,6 +6,9 @@ ModDownloaderX is a Python program that allows users to download Minecraft mods 
 # Change log
 The lates change log can be found at [`change_logs.md` latest section](https://github.com/PyDev19/ModDownloaderX/blob/main/change_log.md#latest)
 
+# Example of how mods.txt should look like
+Check out [`example.md`](https://github.com/PyDev19/ModDownloaderX/blob/main/example.md) if you are unsure how to format the `mods.txt` file.
+
 # Features
 - Download multiple mods from a list in a text file
 - Supports Forge, Fabric, and Quilt mod loaders
