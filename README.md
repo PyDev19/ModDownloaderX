@@ -23,20 +23,20 @@ The latest change log can be found in [`change_logs.md`](https://github.com/PyDe
 To use ModDownloaderX, follow these steps:
 
 1. Clone the repository to your local machine using the command:
-   ```shell
-   git clone https://github.com/PyDev19/ModDownloaderX.git
-   ```
+    ```shell
+    git clone https://github.com/PyDev19/ModDownloaderX.git
+    ```
 2. Install the required Python libraries using:
-```shell
-pip install -r requirements.txt
-```
+    ```shell
+    pip install -r requirements.txt
+    ```
 3. Install the appropriate browser driver for your browser (currently only supports Edge) and add it to your PATH.
 4. Create a text file called `mods.txt` in the same folder as `main.py`.
 5. In the first line add `LOADER=` followed by the mod loader you want, then in the second line add `VERSION=` followed by the minecraft version you want, or just added `latest` after it to get the latest version of the mods, lastly ever line after you should type the name of the mod accurately. For an example checkout [`example.md`](https://github.com/PyDev19/ModDownloaderX/blob/main/example.md)
 6. Run the main.py script using:
-```shell
-python main.py
-```
+    ```shell
+    python main.py
+    ```
 
 # Contributing
 Contributions to ModDownloaderX are always welcome! If you'd like to contribute, please follow these steps:
