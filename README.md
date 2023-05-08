@@ -4,7 +4,7 @@
 ModDownloaderX is a Python program that allows users to download Minecraft mods from CurseForge by reading a list of mods in a text file. The program uses the Selenium library to automate web browsing and simulate user interactions, allowing for easy and efficient mod downloads.
 
 # Change log
-The lates change log can be found at [`change_logs.md` latest section](https://github.com/PyDev19/ModDownloaderX/blob/main/change_log.md#latest)
+The lates change log can be found at [`change_logs.md`](https://github.com/PyDev19/ModDownloaderX/blob/main/change_log.md#latest)
 
 # Example of how mods.txt should look like
 Check out [`example.md`](https://github.com/PyDev19/ModDownloaderX/blob/main/example.md) if you are unsure how to format the `mods.txt` file.
