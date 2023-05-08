@@ -1,4 +1,9 @@
 env/*
 __pycache__/
 msedgedriver
+<<<<<<< Updated upstream
 mods/
+=======
+mods/*
+mods.txt
+>>>>>>> Stashed changes
