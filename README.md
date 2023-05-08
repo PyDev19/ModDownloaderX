@@ -48,4 +48,4 @@ Contributions to ModDownloaderX are always welcome! If you'd like to contribute,
 5. Create a new Pull Request.
 
 # License
-ModDownloaderX is licensed under the MIT License. See the LICENSE file for more information.
+ModDownloaderX is licensed under the MIT License. See the [LICENSE](https://github.com/PyDev19/ModDownloaderX/blob/main/LICENSE) file for more information.
