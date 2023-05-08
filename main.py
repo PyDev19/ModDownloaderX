@@ -3,86 +3,88 @@ from selenium.webdriver.edge.service import Service
 from selenium.webdriver.edge.options import Options
 from mods import download_mod
 
+# Mod loader ids for curseforge url
 mod_loaders = {
     'forge': '1',
     'fabric': '4',
     'quilt': '5'
 }
 
-print('What mode would you like to use: ')
-print('1. Download a single mod')
-print('2. Download mods from a list')
+# Ask for the download directory
+download_dir = input('Enter the download directory you want to download to, make sure to use absolute path (leave empty if you want to download to the default download directory):\n')
 
-mode = input('Enter the number of mod you want to use: ')
+# Prints instructions to tell users what to do
+print('INSTRUCTIONS:')
+print('1. Create a text file called "mods.txt" in the same folder as this program.')
+print('2. In the first line of the file write "LOADER=" and the loader you want (forge, fabric, quilt) after the equal sign.')
+print('3. In the second line of the file write "VERSION=" and the Minecraft version of the mods you want. If you want the latest version, just write "VERSION=latest", but make sure every mod you want has the same latest version.')
+print('4. After that, in each line, write the name of the mod you want. Make sure it is accurate. ONE MOD NAME PER LINE.')
+print('5. Repeat step 4 for each mod you want to download.')
+print('6. Press Enter to start the download process.')
 
-if mode == '1':
-    print('INSTRUCTIONS: ')
-    print('1. Type the name of the mod accurately enough so that it shows up as the first result')
-    print('2. Type the mod loader of that mod')
-    print('3. Type the minecraft version that the mod is available in, ex: 1.19.2 or 1.16.5')
+input('')
 
-    print('\n')
+# Set up the Edge driver with options to enable JavaScript and cookies
+edge_options = Options()
+edge_options.add_argument('--enable-javascript')
+edge_options.add_argument('--enable-cookies')
 
-    # Prompt user for the name and version of the Minecraft mod they want to download
-    mod_name = input('Enter the name of the Minecraft mod to search for: ')
-    loader = input('Enter the mod loader supporter by the mod: ')
-    version = input('Enter the version of the mod you want: ')
+if download_dir != "":
+    # Set the download directory preference if provided
+    edge_options.use_chromium = True
+    edge_options.add_experimental_option("prefs", {
+        "download.default_directory": download_dir,
+        "download.prompt_for_download": False
+    })
 
-    loader_id = mod_loaders.get(loader, None)
+# initiates browser service from the driver
+edge_service = Service(executable_path='./msedgedriver')
 
-    mod_name = mod_name.replace(' ', '+')
+with open('mods.txt', 'r') as file:
+    lines = file.readlines() # gets all the lines of the file
 
-    # Set up the Edge driver with options to enable JavaScript and cookies
-    edge_options = Options()
-    edge_options.add_argument('--enable-javascript')
-    edge_options.add_argument('--enable-cookies')
-    edge_service = Service(executable_path='./msedgedriver')
-    driver = webdriver.Edge(options=edge_options)
-    driver.maximize_window()
+    driver = webdriver.Edge(options=edge_options) # adds the browser options to the web driver
+    driver.maximize_window() # starts the web driver at maximized window
 
-    download_mod(mod_name, version, loader, loader_id, driver)
-    print(f'Done downloading {mod_name.replace("+", " ")} {loader} for {version}, it is located in the downloads folder')
+    for i, line in enumerate(lines):
+        if i == 0:
+            # Read the loader from the first line
+            loader = line.strip().split("=")[1].lower()
+            loader_id = mod_loaders.get(loader.lower()) # gets the loader id for the url of the webpage
+        if i == 1:
+            # Read the version from the second line
+            version = line.strip().split("=")[1]
 
-if mode == '2':
-    print('INSTRUCTIONS: ')
-    print('1. Create a text file called "mods.txt" in the same folder as this program')
-    print('2. In each line follow this format to add a mod to download: mod name,loader,game version')
-    print('3. Do that for every mod you want to download, make sure each mod is in a different')
-    print('4. After you are done that press enter in this program')
-    print('WARNING: Mod name should be accurate enough that it shows up as the first result in the search bar on curseforge')
-    print('WARNING: Make sure the mod loader is availbe for the mod you want')
-    print('WARNING: Make sure the game version is just the number, ex: 1.19.2 or 1.16.5')
+            # Checks if the version is set to latest
+            if version == 'latest':
+                version = 0 # sets version to 0 if the version is set to latest
+        if i >= 2:
+            # Download each mod from line 3 onwards
+            name = line.strip() # get the name of mod
 
-    print('\n')
+            # Checks if the version is set to latest (i.e. 0)
+            if version == 0:
+                # If version is latest then print this
+                print(f"Downloading {loader} {name} mod for the latest Minecraft version")
+            else:
+                print(f'Downloading {loader} {name} mod for Minecraft version {version}')
+            
+            name = name.replace(' ', '+') # Replace white spaces with a plus for the url of the web page
 
-    input('')
-
-    # Set up the Edge driver with options to enable JavaScript and cookies
-    edge_options = Options()
-    edge_options.add_argument('--enable-javascript')
-    edge_options.add_argument('--enable-cookies')
-    edge_service = Service(executable_path='./msedgedriver')
-    driver = webdriver.Edge(options=edge_options)
-    driver.maximize_window()
-
-    with open('mods.txt', 'r') as file:
-        lines = file.readlines()
-
-        for i, line in enumerate(lines):
-            name, loader, version = line.strip().split(',')
-            # Do something with the data, e.g. print it
-            print(f"Downloading {loader} {name} mod for minecraft {version}")
-
-            name = name.replace(' ', '+')
-
-            loader_id = mod_loaders.get(loader, None)
-
-
+            # Checks if the line is the last line of the file
             if i == len(lines) - 1:
+                # If line is the last line, then make the browser wait 15 seconds to ensure that all files are done downloading before exiting
                 download_mod(name, version, loader, loader_id, driver)
             else:
+                # If line is not the last line then the browser only waits for 5 seconds to ensure that the file starts downloading before going to the next one
                 download_mod(name, version, loader, loader_id, driver, wait=False)
 
-            print(f'Done downloading {name.replace("+", " ")} {loader} for {version}')
+            # Checks if the version is set to latest (i.e. 0)
+            if version == 0:
+                # If version is latest then print this
+                print(f'Done downloading {name.replace("+", " ")} {loader} for the latest Minecraft version')
+            else:
+                # If version is not the latest then print this
+                print(f'Done downloading {name.replace("+", " ")} {loader} for Minecraft version {version}')
 
-        print('Done downloading all the mods, they are available in downloads folder')
+print('Done downloading all the mods. They are available in the downloads folder.')
