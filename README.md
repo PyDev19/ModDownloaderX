@@ -42,9 +42,9 @@ To use ModDownloaderX, follow these steps:
 Contributions to ModDownloaderX are always welcome! If you'd like to contribute, please follow these steps:
 
 1. Fork the repository.
-2. Create a new branch: git checkout -b my-new-feature.
-3. Make your changes and commit them: git commit -am 'Add some feature'.
-4. Push your changes to your forked repository: git push origin my-new-feature.
+2. Create a new branch: `git checkout -b my-new-feature.`
+3. Make your changes and commit them: `git commit -am 'Add some feature'`.
+4. Push your changes to your forked repository: `git push origin my-new-feature`.
 5. Create a new Pull Request.
 
 # License
