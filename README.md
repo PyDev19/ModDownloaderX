@@ -1,12 +1,17 @@
+# WARNING: THIS BRANCH IS FOR LINUX ONLY, PROBABLY WON'T RUN ON WINDOWS (YET)
+
 # ModDownloaderX
 ModDownloaderX is a Python program that allows users to download Minecraft mods from CurseForge by reading a list of mods in a text file. The program uses the Selenium library to automate web browsing and simulate user interactions, allowing for easy and efficient mod downloads.
 
+# Change log
+The lates change log can be found at [`ChangeLogs.md` latest section](https://github.com/PyDev19/ModDownloaderX/blob/main/ChangeLogs.md#latest)
+
 # Features
-- Download a single mod by name, loader, and version
 - Download multiple mods from a list in a text file
 - Supports Forge, Fabric, and Quilt mod loaders
 - Automatically detects the latest version of each mod
 - Downloads mods directly to the downloads folder
+- You can change the downloads folder to a folder of your choice
 
 # Getting Started
 To use ModDownloaderX, follow these steps:
@@ -15,7 +20,7 @@ To use ModDownloaderX, follow these steps:
 - Install the appropriate browser driver for your browser (currently only supports Edge) and add it to your `PATH`
 - Create a text file called mods.txt in the same folder as mod_downloader.py
 - In each line of the text file, enter the name of a mod, the mod loader (Forge, Fabric, or Quilt), and the game version (e.g. 1.16.5), example: JEI,Forge,1.19.2
-- Run mod_downloader.py using python mod_downloader.py
+- Run `main.py` using `python main.py`
 - Follow the prompts to download your mods
 
 # Contributing
