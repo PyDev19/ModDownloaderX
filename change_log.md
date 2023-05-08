@@ -1,7 +1,10 @@
-# Latest
-- Removed single mod download feature, it was use less anyways
-- Now you only need to specify the mod loader and minecraft version once at the begining of the file
-- You can download the latest version of each mod by add `VERSION=latest` in the second line for the file, make sure that all the mods have the same latest version or you might run into some trouble for your modpack
-- You can change the download folder that the mods are downloaded to, make sure it a absolute path
-- Added documentation to both `main.py` and `mods.py` to make to easier for contributors to make changes to the code
-- Added prompt to ask user weather they want to see the browser window while the mods are being downloaded
+# Change Log
+
+## Latest
+
+- Removed the single mod download feature as it was not useful.
+- Now you only need to specify the mod loader and Minecraft version once at the beginning of the `mods.txt` file.
+- Added support for downloading the latest version of each mod. To do this, add `VERSION=latest` in the second line of the `mods.txt` file. Please ensure that all the mods have the same latest version to avoid issues with your modpack.
+- Added the ability to specify a custom download folder for the downloaded mods. Ensure that you provide an absolute path.
+- Documented `main.py` and `mods.py` to facilitate easier code contributions from other contributors.
+- Added a prompt to ask users whether they want to see the browser window while the mods are being downloaded.
