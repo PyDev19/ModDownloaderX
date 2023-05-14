@@ -1,5 +1,5 @@
 env/*
 __pycache__/
-msedgedriver
 mods/*
 mods.txt
+drivers/
