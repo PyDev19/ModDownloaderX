@@ -1,14 +1,35 @@
 from selenium import webdriver
-from selenium.webdriver.edge.service import Service
-from selenium.webdriver.edge.options import Options
 from mods import download_mod
+from drivers import get_browser_driver
 
 # Mod loader ids for curseforge url
-mod_loaders = {
+MOD_LOADERS = {
     'forge': '1',
     'fabric': '4',
     'quilt': '5'
 }
+
+print('What browser do you want to use (make sure it is installed):\n1. Chrome\n2. Chromium')
+browser = input('').lower()
+
+if browser == '1' or browser == 'chrome':
+    from selenium.webdriver.chrome.options import Options
+    from selenium.webdriver.chrome.service import Service
+
+    if get_browser_driver('chrome'):
+        # Set up the Chrome driver with options to enable JavaScript and cookies
+        chrome_options = Options()
+        chrome_options.add_argument('--enable-javascript')
+        chrome_options.add_argument('--enable-cookies')
+elif browser == '2' or browser == 'chromium':
+    from selenium.webdriver.chromium.options import ChromiumOptions
+    from selenium.webdriver.chromium.service import ChromiumService
+
+    if get_browser_driver('chromium'):
+        # Set up the Chromium driver with options to enable JavaScript and cookies
+        chromium_options = ChromiumOptions()
+        chromium_options.add_argument('--enable-javascript')
+        chromium_options.add_argument('--enable-cookies')
 
 # Ask for the download directory
 download_dir = input('Enter the download directory you want to download to, make sure to use absolute path (leave empty if you want to download to the default download directory):\n')
@@ -17,6 +38,43 @@ print('\n')
 
 # Ask if user wants to see browser window or not
 headless = input('Do you want to see the browser window (y/n): ')
+
+if download_dir != "":
+    if browser == '1' or browser == 'chrome':
+        # Set the download directory preference if provided
+        chrome_options.add_experimental_option("prefs", {
+            "download.default_directory": download_dir,
+            "download.prompt_for_download": False
+        })
+    elif browser == '2' or browser == 'chromium':
+        # Set the download directory preference if provided
+        chromium_options.add_experimental_option("prefs", {
+            "download.default_directory": download_dir,
+            "download.prompt_for_download": False
+        })
+
+# If headless mode is not enabled
+if headless == 'n':
+    # Set the user agent to mimic a specific web browser (Chrome in this case)
+    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'
+
+    if browser == '1' or browser == 'chrome':
+        # Add the user agent as a command-line argument for the Edge driver
+        chrome_options.add_argument(f'user-agent={user_agent}')
+        chrome_options.add_argument('--headless')
+    elif browser == '2' or browser == 'chromium':
+        # Enable headless mode, where the browser runs without a visible window
+        chromium_options.add_argument(f'user-agent={user_agent}')
+        chromium_options.add_argument('--headless')
+
+if browser == '1' or browser == 'chrome':
+    # initiates browser service from the driver
+    chrome_service = Service(executable_path='drivers/chromedriver')
+    driver = webdriver.Edge(options=chrome_options) # adds the browser options to the web driver
+elif browser == '2' or browser == 'chromium':
+    # initiates browser service from the driver
+    chromium_service = ChromiumService(executable_path='drivers/chromedriver')
+    driver = webdriver.Edge(options=chromium_options) # adds the browser options to the web driver
 
 print('\n')
 
@@ -31,42 +89,16 @@ print('6. Press Enter to start the download process.')
 
 input('')
 
-# Set up the Edge driver with options to enable JavaScript and cookies
-edge_options = Options()
-edge_options.add_argument('--enable-javascript')
-edge_options.add_argument('--enable-cookies')
-
-if download_dir != "":
-    # Set the download directory preference if provided
-    edge_options.use_chromium = True
-    edge_options.add_experimental_option("prefs", {
-        "download.default_directory": download_dir,
-        "download.prompt_for_download": False
-    })
-
-# If headless mode is not enabled
-if headless == 'n':
-    # Set the user agent to mimic a specific web browser (Chrome in this case)
-    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'
-    # Add the user agent as a command-line argument for the Edge driver
-    edge_options.add_argument(f'user-agent={user_agent}')
-    # Enable headless mode, where the browser runs without a visible window
-    edge_options.add_argument('--headless')
-
-# initiates browser service from the driver
-edge_service = Service(executable_path='./msedgedriver')
-
 with open('mods.txt', 'r') as file:
     lines = file.readlines() # gets all the lines of the file
 
-    driver = webdriver.Edge(options=edge_options) # adds the browser options to the web driver
     driver.maximize_window() # starts the web driver at maximized window
 
     for i, line in enumerate(lines):
         if i == 0:
             # Read the loader from the first line
             loader = line.strip().split("=")[1].lower()
-            loader_id = mod_loaders.get(loader.lower()) # gets the loader id for the url of the webpage
+            loader_id = MOD_LOADERS.get(loader.lower()) # gets the loader id for the url of the webpage
         if i == 1:
             # Read the version from the second line
             version = line.strip().split("=")[1]
