@@ -58,28 +58,13 @@ def download_mod(name: str, version: str, loader: str, loader_id: str, driver: w
     mod_file = None
     found = False
 
-    if version != 0:
-        for file_card in file_cards:
-            # Find the `game-version` element within the file card
-            game_version = file_card.find_element(By.CSS_SELECTOR, 'div[data-testid^="game-version"]')
-            game_version = game_version.find_element(By.TAG_NAME, 'span').text
+    for file_card in file_cards:
+        mod_file = file_card
+        mod_file.click()
+        found = True
 
-            if version in game_version:
-                # If the file card matches the desired version, click on it and download the mod file
-                mod_file = file_card
-                mod_file.click()
-                found = True
-
-                mod_file = (driver.current_url).replace('files','download')
-                break
-    else:
-        for file_card in file_cards:
-            mod_file = file_card
-            mod_file.click()
-            found = True
-
-            mod_file = (driver.current_url).replace('files','download')
-            break
+        mod_file = (driver.current_url).replace('files','download')
+        break
 
     if not found:
         # If the desired version is not available, print an error message
